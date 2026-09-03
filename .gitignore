@@ -1,0 +1,35 @@
+# ─── OS / editor cruft ────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.vscode/
+.idea/
+
+# ─── Claude Code local settings (machine-specific) ────────────────────
+# launch.json + serve.ps1 are shared project config and ARE committed.
+# settings.local.json is a per-machine permission allowlist — not shared.
+.claude/settings.local.json
+
+# ─── Working backups / scratch ───────────────────────────────────────
+*.backup_*.html
+portfolio_v2.backup_*
+*.bak
+/scratch/
+/tmp/
+
+# ─── Files over GitHub's 100 MB per-file limit ───────────────────────
+# These stay on disk but are NOT tracked by git — a push containing
+# them would be rejected by GitHub.
+#
+# portfolio_v2.html is ~269 MB only because the Ravager clip is
+# embedded as base64. Planned fix (see CLAUDE.md "Known gaps"): move
+# that clip to YouTube, which drops the file to ~17 MB. Once that's
+# done, delete the line below and run:  git add claude-md-project/portfolio_v2.html
+/claude-md-project/portfolio_v2.html
+
+# Raw 174 MB source export for the Ravager piece. The finished footage
+# lives inside portfolio_v2.html / on YouTube; this original is local
+# reference only.
+/claude-md-project/RAVAGER/3D CHARACTER - RAVAGER.mp4

@@ -1,0 +1,23 @@
+# Normalise line endings: text files stored as LF in the repo,
+# checked out with the platform's native endings.
+* text=auto
+
+*.html  text
+*.css   text
+*.js    text
+*.json  text
+*.md    text
+*.ps1   text eol=crlf
+
+# Binary assets — never touch these.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.mp4   binary
+*.mov   binary
+*.eps   binary
+*.fbx   binary
+*.ttf   binary
+*.pdf   binary
