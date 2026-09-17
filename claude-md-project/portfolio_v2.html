@@ -512,6 +512,14 @@
     margin-right:auto;   /* far left; nav's flex-end keeps icons right */
     flex:none;
   }
+  /* #galleryBack and #categoryBack (the "Home" pill on the gallery and
+     category screens) now live inside .wrap so their left edge lines up
+     exactly with the header's GALLERY pill (both sit in the same
+     max-width:1180px/padding:40px box) — .back-btn's default side margin
+     would double up with .wrap's own 40px padding, so it's zeroed here;
+     top margin trimmed so each reads as grouped with the header above it
+     rather than a separate floating button. */
+  #galleryBack, #categoryBack{ margin:16px 0 0; }
   /* These overrides have to sit *after* .back-btn to win the cascade (the
      nav @media block above is declared earlier in the sheet). Below 700px
      the header row can wrap: the label is hidden so the pill is just its
@@ -914,8 +922,8 @@
 
   <!-- ================= CATEGORY SCREEN ================= -->
   <section id="screen-category" class="screen">
-    <button class="back-btn" id="categoryBack"><span class="back-orb"><span class="back-orb-half back-orb-left"></span><span class="back-orb-half back-orb-right"></span></span>Home</button>
     <div class="wrap section">
+      <button class="back-btn" id="categoryBack"><span class="back-orb"><span class="back-orb-half back-orb-left"></span><span class="back-orb-half back-orb-right"></span></span>Home</button>
       <div class="section-head">
         <h2 id="categoryTitle"></h2>
       </div>
@@ -926,8 +934,8 @@
 
   <!-- ================= GALLERY SCREEN ================= -->
   <section id="screen-gallery" class="screen">
-    <button class="back-btn" id="galleryBack"><span class="back-orb"><span class="back-orb-half back-orb-left"></span><span class="back-orb-half back-orb-right"></span></span>Home</button>
     <div class="wrap section">
+      <button class="back-btn" id="galleryBack"><span class="back-orb"><span class="back-orb-half back-orb-left"></span><span class="back-orb-half back-orb-right"></span></span>Home</button>
       <div class="section-head">
         <h2>Gallery</h2>
         <span class="gallery-count" id="galleryCount"></span>
