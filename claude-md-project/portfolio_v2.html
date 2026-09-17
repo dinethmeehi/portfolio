@@ -96,7 +96,6 @@
     display:flex; align-items:center; gap:10px;
     white-space:nowrap;
   }
-  .nav-logo{ height:24px; width:auto; display:block; }
   .nav-icons{ display:flex; align-items:center; gap:20px; }
   .nav-icons a{
     color:var(--muted); display:flex; align-items:center; justify-content:center;
@@ -329,18 +328,6 @@
   .orb-slot-row-tactical .orb-info-card{ left:auto; right:100%; margin-left:0; margin-right:26px; }
   .orb-slot-row-tactical .orb-info-card::before{ left:auto; right:-26px; }
   .orb-slot-row-tactical:hover .orb-info-card, .orb-slot-row-tactical:focus-within .orb-info-card{ transform:translate(-6px, -50%); }
-
-  .scroll-cue{
-    flex:0 0 auto;
-    text-align:center;
-    padding:0 0 8px;
-    margin-top:40px;
-    font-size:11px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--muted);
-    opacity:0.7;
-  }
 
   @media (max-width:900px){
     .home-hero{ padding:20px 16px 40px; }
@@ -674,26 +661,14 @@
     .about-portrait{ max-width:280px; }
   }
 
-  /* ---------- CONTACT ---------- */
-  .contact{ padding:80px 0 90px; }
-  .contact h2{
-    font-family:'Retron2000', sans-serif; font-weight:300; font-style:italic;
-    font-size:clamp(34px, 6vw, 58px); max-width:640px; margin-bottom:20px;
-  }
+  /* ---------- CONTACT (About screen's Contact section reuses this) ---------- */
   .contact-links{ display:flex; gap:40px; flex-wrap:wrap; }
-  .contact-links--social{ margin-bottom:34px; }
   .contact-links a{
     font-family:'Retron2000', sans-serif; font-size:13px; letter-spacing:0.06em;
     text-transform:uppercase; padding-bottom:6px; border-bottom:1px solid var(--ink);
     transition:opacity 0.25s ease, border-color 0.25s ease;
   }
   .contact-links a:hover{ color:var(--accent); border-color:var(--accent); }
-
-  footer{ padding:26px 0 40px; }
-  footer .wrap{
-    display:flex; justify-content:space-between; color:var(--muted);
-    font-family:'Retron2000', sans-serif; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
-  }
 
   @media (prefers-reduced-motion: reduce){
     *{ transition:none !important; }
@@ -1000,7 +975,6 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/inflate.min.js"></script>
 <!-- FBXLoader + its fflate dependency (for the real 3D-model orb icons below —
      matches the three.js r128 build above; fflate decompresses the zlib-deflated
      property arrays binary FBX files use). -->

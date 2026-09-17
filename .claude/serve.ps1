@@ -1,6 +1,6 @@
 param(
     [string]$RootDir = "D:\Portfoilo\Website Portfilo\claude-md-project",
-    [int]$Port = 5173
+    [int]$Port = $(if ($env:PORT) { [int]$env:PORT } else { 5173 })
 )
 
 Add-Type -AssemblyName System.Net.HttpListener -ErrorAction SilentlyContinue
