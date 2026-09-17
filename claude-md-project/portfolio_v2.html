@@ -1080,7 +1080,6 @@
         state.sub = sub;
         renderCategoryFilters(cat);
         renderCategoryGrid();
-        burstParticles(e.clientX, e.clientY, cat);
       });
       subRow.appendChild(btn);
     });
@@ -1102,7 +1101,6 @@
         state.year = 'all';
         renderCategoryFilters(cat);
         renderCategoryGrid();
-        burstParticles(e.clientX, e.clientY, cat);
       });
       yearRow.appendChild(allYearBtn);
 
@@ -1114,7 +1112,6 @@
           state.year = y;
           renderCategoryFilters(cat);
           renderCategoryGrid();
-          burstParticles(e.clientX, e.clientY, cat);
         });
         yearRow.appendChild(btn);
       });
@@ -1701,7 +1698,6 @@
   });
   document.getElementById('galleryBack').addEventListener('click', (e) => reassembleAndGoHome(e.currentTarget));
   document.getElementById('homeGalleryBtn').addEventListener('click', (e) => {
-    if(typeof burstParticles === 'function') burstParticles(e.clientX, e.clientY, 'all');
     showGallery();
   });
 
@@ -1727,7 +1723,6 @@
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         showCategory(cat, sub);
-        burstParticles(e.clientX, e.clientY, cat);
       });
       el.appendChild(btn);
     });
@@ -1755,7 +1750,6 @@
     cta.addEventListener('click', (e) => {
       e.stopPropagation();
       showCategory(cat, 'all');
-      burstParticles(e.clientX, e.clientY, cat);
     });
     el.appendChild(tag);
     el.appendChild(desc);
@@ -1767,7 +1761,6 @@
   ========================================================= */
   const canvas = document.getElementById('particle-canvas');
   const ctx = canvas.getContext('2d');
-  let particles = [];
   let dust = []; // Step 08 mouse-trail dots — separate pool, same canvas/loop
   let rafId = null;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1850,72 +1843,6 @@
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
-  const inkColor = '242,240,234';
-  const accentColor = '201,191,160';
-  const allShapes = ['cube', 'triangle', 'square', 'line'];
-
-  function makeParticle(x, y, mode){
-    const angle = Math.random() * Math.PI * 2;
-    const speed = 2.5 + Math.random() * 5;
-    const isAccent = Math.random() < 0.35;
-    return {
-      x, y,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - 1.5,
-      rotation: Math.random() * Math.PI * 2,
-      vr: (Math.random() - 0.5) * 0.3,
-      size: 6 + Math.random() * (mode === '3d' ? 16 : 10),
-      shape: mode === '3d'
-        ? (Math.random() < 0.5 ? 'cube' : 'triangle')
-        : mode === 'projects'
-          ? (Math.random() < 0.5 ? 'cube' : 'square')
-          : mode === '2d'
-            ? ['square', 'triangle', 'line'][Math.floor(Math.random() * 3)]
-            : allShapes[Math.floor(Math.random() * allShapes.length)],
-      color: isAccent ? accentColor : inkColor,
-      life: 1,
-      decay: 0.012 + Math.random() * 0.012
-    };
-  }
-
-  function burstParticles(x, y, mode){
-    if(reduceMotion) return;
-    for(let i = 0; i < 26; i++) particles.push(makeParticle(x, y, mode));
-    if(!rafId) rafId = requestAnimationFrame(stepParticles);
-  }
-
-  function drawShape(p){
-    ctx.save();
-    ctx.translate(p.x, p.y);
-    ctx.rotate(p.rotation);
-    ctx.globalAlpha = Math.max(p.life, 0);
-    ctx.strokeStyle = 'rgba(' + p.color + ', 0.9)';
-    ctx.lineWidth = 1.4;
-    const s = p.size;
-    if(p.shape === 'square'){
-      ctx.strokeRect(-s/2, -s/2, s, s);
-    } else if(p.shape === 'triangle'){
-      ctx.beginPath();
-      ctx.moveTo(0, -s/2); ctx.lineTo(s/2, s/2); ctx.lineTo(-s/2, s/2);
-      ctx.closePath(); ctx.stroke();
-    } else if(p.shape === 'line'){
-      ctx.beginPath(); ctx.moveTo(-s/2, 0); ctx.lineTo(s/2, 0); ctx.stroke();
-    } else if(p.shape === 'cube'){
-      const d = s * 0.5;
-      ctx.strokeRect(-s/2, -s/4, s * 0.62, s * 0.62);
-      ctx.beginPath();
-      ctx.moveTo(-s/2, -s/4);
-      ctx.lineTo(-s/2 + d * 0.4, -s/4 - d * 0.4);
-      ctx.lineTo(-s/2 + d * 0.4 + s * 0.62, -s/4 - d * 0.4);
-      ctx.lineTo(-s/2 + s * 0.62, -s/4);
-      ctx.moveTo(-s/2 + d * 0.4 + s * 0.62, -s/4 - d * 0.4);
-      ctx.lineTo(-s/2 + d * 0.4 + s * 0.62, -s/4 - d * 0.4 + s * 0.62);
-      ctx.lineTo(-s/2 + s * 0.62, -s/4 + s * 0.62);
-      ctx.stroke();
-    }
-    ctx.restore();
-  }
-
   function drawDust(p){
     ctx.save();
     ctx.globalAlpha = Math.max(p.life, 0) * 0.5;
@@ -1928,13 +1855,6 @@
 
   function stepParticles(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.vx *= 0.985;
-      p.rotation += p.vr; p.life -= p.decay;
-      drawShape(p);
-    });
-    particles = particles.filter(p => p.life > 0);
-
     dust.forEach(p => {
       p.x += p.vx; p.y += p.vy; p.vx *= 0.98; p.vy *= 0.98;
       p.life -= p.decay;
@@ -1968,7 +1888,7 @@
       }
     }
 
-    if(particles.length > 0 || dust.length > 0){ rafId = requestAnimationFrame(stepParticles); }
+    if(dust.length > 0){ rafId = requestAnimationFrame(stepParticles); }
     else { ctx.clearRect(0, 0, canvas.width, canvas.height); rafId = null; }
   }
 
@@ -3018,11 +2938,6 @@
       hotspot.addEventListener('pointercancel', endDrag);
       hotspot.addEventListener('click', (e) => {
         if(wasDragged){ wasDragged = false; return; }
-        // 'about' isn't '3d'/'2d'/'projects'/'all', so this lands on the same
-        // mixed-shape default as 'all' but stays white/ivory, not gold — gold
-        // is reserved for the "All" filter only (see DESIGN_SYSTEM.md).
-        burstParticles(e.clientX, e.clientY, 'about');
-        WireframeSystem.convergeAt(e.clientX, e.clientY);
         navigateWithSplit(about, ABOUT_DEF.radius, goAbout);
       });
       hotspot.addEventListener('pointerenter', () => {
@@ -3065,8 +2980,6 @@
       hotspot.addEventListener('click', (e) => {
         if(wasDragged){ wasDragged = false; return; }
         const cat = slotAssignment[slotName];
-        burstParticles(e.clientX, e.clientY, cat);
-        WireframeSystem.convergeAt(e.clientX, e.clientY);
         navigateWithSplit(categoryOrbs[cat], BASE_ROW_RADIUS, () => showCategory(cat, 'all'));
       });
       hotspot.addEventListener('pointerenter', () => {
